@@ -10,7 +10,7 @@
 # ------------------------------------------------
 
 # Check arguments
-if [ "$#" -ne 3 ] || [ "$#" -ne 4]; then
+if [ "$#" -lt 3 ] || [ "$#" -gt 4 ]; then
     echo "Usage: [sudo] docker_analysis.sh container_name project_name source_url [solc_version]";
     echo "";
     echo "PARAMETERS:";
@@ -18,10 +18,11 @@ if [ "$#" -ne 3 ] || [ "$#" -ne 4]; then
     echo "  project_name    Name of the project"
     echo "  source_url      URL to source (GitHub)"
     echo "  solc_version    (Optional) solc version [19|18|17], defaults to 4.[19].0"
+    exit 1
 fi;
 
 # Warn if not sudo
-if [ "$UID" -ne 0]; then
+if [ $(id -u) -ne 0 ]; then
     echo "Warning: this script may need to be run with root privileges";
 fi;
 

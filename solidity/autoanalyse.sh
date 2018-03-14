@@ -120,16 +120,15 @@ function analysis() {
 # --------------------------------------------
 function prepare() {
     # Check for solc version and configure
-    if [ -z "$3" ]; then
+    if [ ! -z "$3" ]; then
         case "$3" in
             "18" | "17")
-                unzip /solcv/solc$4.zip && cp solc /usr/bin/solc;
+                echo "Using solidity version 4.$3.0";
+                unzip /solcv/solc$3.zip && cp solc /usr/bin/solc;
                 ;;
-            "19")
+            "*")
+                echo "Using solidity version 4.19.0";
                 cp /solcv/solc19 /usr/bin/solc;
-                ;;
-            *)
-                echo "Supported solc versions are 17|18|19.";
                 ;;
         esac;
     fi;
@@ -162,11 +161,11 @@ function prepare() {
 # --   None
 # --------------------------------------------
 function main() {
-    if [ "$1" = "-h" ] || [ "$#" -gt 3 ] || ["$#" -lt 2]; then
-        usage;
-    else
+    if [ "$#" -eq 3 ] || [ "$#" -eq 2]; then
         prepare "$@";
         analysis $1;
+    else
+        usage;
     fi;
 }
 
